@@ -1,0 +1,40 @@
+<div class="form-container">
+    <div>
+      <h2>{{ title }} Room</h2>
+    </div>
+    <p></p>
+    <form [formGroup]="form" (ngSubmit)="createRoom(form)">
+      <div class="form-group-row">
+        <div class="form-group">
+          <input formControlName="name" type="text" id="input-field-1" name="name" required>
+          <label for="input-field-1">Name</label>
+        </div>
+        <div class="form-group">
+          <input formControlName="places" type="number" id="input-field-2" name="places" required>
+          <label for="input-field-2">Places</label>
+        </div>
+      </div>
+      <div class="form-group-row">
+        <div class="form-group">
+          <input formControlName="floor" type="number" id="input-field-3" name="floor" required>
+          <label for="input-field-3">Floor</label>
+        </div>
+        <div class="form-group">
+          <input formControlName="description" type="text" id="input-field-4" name="description" required>
+          <label for="input-field-4">Description</label>
+        </div>
+      </div>
+      <div class="form-group-submit">
+        <div class="form-group-select" *ngIf="this.data.bandera === 1">
+          <select formControlName="stateCodeId" id="state-room" name="stateCodeId" required>
+            <option value="" disabled selected hidden></option>
+            <option *ngFor="let stateRoom of stateRooms" [value]="stateRoom.value">
+              {{ stateRoom.viewValue }}
+            </option>
+          </select>
+          <label for="state-room">State room</label>
+        </div>
+        <button type="submit" class="submit-button">Submit</button>
+      </div>
+    </form>
+  </div>

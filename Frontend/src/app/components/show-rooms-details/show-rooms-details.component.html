@@ -1,0 +1,67 @@
+<div class="parent mt-4">
+  <div class="container" id="container">
+    <div class="button-container">
+      <button type="button" class="btn-sign"  (click)="addRoom()">
+        <mat-icon  class="icon"> add </mat-icon>
+        Create room</button>
+    </div>
+    <div class="table-container">
+
+        
+      <table mat-table [dataSource]="roomsDetails" >
+
+          <!-- Id Column -->
+          <ng-container matColumnDef="Id">
+            <th mat-header-cell *matHeaderCellDef> Id </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+          </ng-container>
+
+          <!-- Product Name Column -->
+          <ng-container matColumnDef="Name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+          </ng-container>
+
+          <!-- Product Description Column -->
+          <ng-container matColumnDef="places">
+            <th mat-header-cell *matHeaderCellDef> Places </th>
+            <td mat-cell *matCellDef="let element"> {{element.plazas}} </td>
+          </ng-container>
+
+          <!-- Product Actual Price Column -->
+          <ng-container matColumnDef="floor">
+            <th mat-header-cell *matHeaderCellDef> Floor </th>
+            <td mat-cell *matCellDef="let element"> {{element.planta}} </td>
+          </ng-container>
+
+          <!-- Product Discounted Price Column -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> description </th>
+            <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+          </ng-container>
+          <!-- State Room Column -->
+          <ng-container matColumnDef="state room">
+            <th mat-header-cell *matHeaderCellDef> State Room </th>
+            <td mat-cell *matCellDef="let element"> {{ getStateRoomName(element.estadoSalaId) }} </td>
+          </ng-container>
+          
+          <!-- Actions Column -->
+          <ng-container matColumnDef="Actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let element"> 
+                  
+                <button mat-icon-button color="blue" (click)="editRoomsDetails(element.id)">
+                  <mat-icon> edit </mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteRoom(element.id)">
+                  <mat-icon> delete </mat-icon>
+                </button>
+              </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+</div>

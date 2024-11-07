@@ -1,0 +1,39 @@
+<div class="parent"> 
+    <div class="container" [ngClass]="isSignDivVisiable ? 'active' :'' " id="container">
+        <div class="form-container sign-up" >
+            <form #signUpForm="ngForm" (ngSubmit)="signup(signUpForm)">
+                <h1>Create Account</h1>
+                <span>use usermame for registeration</span>
+                <input ngModel type="text" name="username" placeholder="Username" id="userNameSignUp" required>
+                <input ngModel type="text" name="email" placeholder="Email" id="email" required>
+                <input ngModel type="password" name="password" placeholder="Password" 
+                       minlength="7" id="userPasswordSingUp" required>
+                <button type="submit" value="Login">Sign Up</button>
+                
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+                <h1>Sign In</h1>
+                <span>Use your username and password</span>
+                <input ngModel type="text" name="email" placeholder="Email" id="email" required>
+                <input ngModel type="password" name="password" placeholder="Password" id="userPassword" required>
+                <button type="submit" value="Login">Sign In</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button type="button" class="hidden" id="login" (click)="isSignDivVisiable = false">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to use all of site features</p>
+                    <button type="button" class="hidden" id="register" (click)="isSignDivVisiable = true">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
