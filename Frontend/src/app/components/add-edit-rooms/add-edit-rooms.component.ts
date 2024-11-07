@@ -113,4 +113,7 @@ export class AddEditRoomsComponent implements OnInit {
       });
     }
   }
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
 }

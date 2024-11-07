@@ -52,4 +52,6 @@
     align-items: center;
   }
 
-  
+  .backdrop-class {
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  }

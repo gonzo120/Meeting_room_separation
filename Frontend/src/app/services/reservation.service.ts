@@ -5,12 +5,16 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserAuthService } from './user-auth.service';
 import { Room } from '../_model/room.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservationService {
-  private baseUrl = 'http://localhost:3000/auth/';
+  //private baseUrl = 'http://localhost:3000/auth/';
+  //private baseUrl = 'https://meeting-room-separation.onrender.com/auth/';
+  private baseUrl = environment.baseUrl;
+
   requestHeader = new HttpHeaders({ 'No-Auth': 'True' });
   headers = new HttpHeaders({
     'Authorization': 'Bearer ', // Reemplaza con tu token de autenticación
@@ -21,8 +25,11 @@ export class ReservationService {
   getAllReservations(): Observable<any> {
     return this.http.get<Room[]>(this.baseUrl+'fetchAllReservations/rooms');
   }
-  getAllReservationsByUser(id: number): Observable<any> {
+  /* getAllReservationsByUser(id: number): Observable<any> {
     return this.http.get<Room[]>(this.baseUrl+'findReservationById/'+id);
+  } */
+  getAllReservationsByUser(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}findReservationById/${userId}`);
   }
   getAllRoomsAvailable(): Observable<any> { 
     return this.http.get<Room[]>(this.baseUrl+'findRoomsAvailable');

@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -41,6 +41,7 @@ export class AddEditReservationComponent implements OnInit {
   stateCodeId: number = 2;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(PLATFORM_ID) private platformId: Object,
     private roomService: RoomService,
     public reservationService: ReservationService,
     private dialogRef: MatDialogRef<AddEditReservationComponent>
@@ -61,8 +62,7 @@ export class AddEditReservationComponent implements OnInit {
   
   ngOnInit(): void {
     
-    this.userId = localStorage.getItem('userId');
-    console.log('userId', this.userId);
+    
     console.log(this.data);
     this.title = this.data.bandera === 0 ? 'Create' : 'Edit';
     if (this.data.bandera === 1 && this.data.reservation) {
@@ -79,8 +79,13 @@ export class AddEditReservationComponent implements OnInit {
     
     }
     this.reservations();
+    this.getUserId();
     
-    
+  }
+  getUserId() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.userId = localStorage.getItem('userId');
+    }
   }
   reservations() {
     this.reservationService.getAllRoomsAvailable()
@@ -171,5 +176,8 @@ export class AddEditReservationComponent implements OnInit {
         }
       });
     }
+  }
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 }

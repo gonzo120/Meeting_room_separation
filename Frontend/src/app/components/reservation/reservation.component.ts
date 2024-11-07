@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { AddEditRoomsComponent } from '../add-edit-rooms/add-edit-rooms.componen
 import { ReservationService } from '../../services/reservation.service';
 import { AddEditReservationComponent } from '../add-edit-reservation/add-edit-reservation.component';
 import { ClienteService } from '../../services/cliente.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-reservation',
@@ -21,16 +21,18 @@ import { CommonModule } from '@angular/common';
   styleUrl: './reservation.component.css'
 })
 export class ReservationComponent  implements OnInit {
-
+  idUser!: number;
   showLoadMoreProductButton = false;
   dataSource = new MatTableDataSource();
   showTable = false;
   pageNumber: number = 0;
   reservationDetails: Room[] = [];
+  reservationDetailsUser: Room[] = [];
   
   //displayedColumns: string[] = ['Id', 'Name', 'day', 'hour_start' ,'duration', 'description', 'user','room','Actions' ];
   displayedColumns: string[] = [];
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private dialog: MatDialog,
     private reservationService: ReservationService,
     private router: Router,
@@ -39,7 +41,7 @@ export class ReservationComponent  implements OnInit {
 
   ngOnInit(): void {
     this.getAllReservations();
-
+    
     
     if (this.userService.roleMatch(['Admin'])) {
       
@@ -49,8 +51,9 @@ export class ReservationComponent  implements OnInit {
     }
   }
   
-
+  
   public getAllReservations() {
+    
     this.showTable = false;
     if(this.userService.roleMatch(['Admin'])){
       this.reservationService.getAllReservations()
@@ -63,20 +66,24 @@ export class ReservationComponent  implements OnInit {
           console.log(error);
         }
       );
-    }else{
-        const idUser = parseInt(localStorage.getItem('userId') || '0', 10);
-        console.log('idUser', idUser);
-        this.reservationService.getAllReservationsByUser(idUser)
+    } else {
+      this.reservationService.getAllReservations()
         .subscribe(
           (resp) => {
-             console.log(resp);
-             this.reservationDetails = resp.reservation; 
-             this.dataSource.data = resp.reservation;
+            console.log(resp);
+            if (isPlatformBrowser(this.platformId)) {
+              const userId = localStorage.getItem('userId');
+              this.idUser = userId ? parseInt(userId, 10) : 1; // Inicializa con 1 si no se encuentra en localStorage
+              console.log('idUser', this.idUser);
+            }
+            this.reservationDetailsUser = resp.filter((reservation: any) => reservation.userId == this.idUser);
+            this.reservationDetails = this.reservationDetailsUser;
+            this.dataSource.data = this.reservationDetailsUser;
           }, (error: HttpErrorResponse) => {
             console.log(error);
           }
         );
-      }
+    } 
   }
 
   getStateRoomName(estadoSalaId: number): string {

@@ -69,7 +69,10 @@ export class ShowRoomsDetailsComponent implements OnInit {
     const dialogRef = this.dialog.open(AddEditRoomsComponent, {
       data: {
         bandera: 0
-      }
+      },
+      disableClose: false, // Permitir que el diálogo se cierre al hacer clic fuera del recuadro
+      hasBackdrop: true,
+      backdropClass: 'backdrop-class'
     });
 
     dialogRef.afterClosed().subscribe({
@@ -97,7 +100,10 @@ export class ShowRoomsDetailsComponent implements OnInit {
         data: {
           bandera: 1,
           room: room
-        }
+        },
+        disableClose: true, // Permitir que el diálogo se cierre al hacer clic fuera del recuadro
+        hasBackdrop: true,
+        backdropClass: 'backdrop-class'
       });
 
       dialogRef.afterClosed().subscribe({

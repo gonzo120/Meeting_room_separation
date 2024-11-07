@@ -4,12 +4,16 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserAuthService } from './user-auth.service';
 import { Room } from '../_model/room.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomService {
-  private baseUrl = 'http://localhost:3000/auth/';
+  //private baseUrl = 'http://localhost:3000/auth/';
+  //private baseUrl = 'https://meeting-room-separation.onrender.com/auth/';
+  private baseUrl = environment.baseUrl;
+
   requestHeader = new HttpHeaders({ 'No-Auth': 'True' });
   headers = new HttpHeaders({
     'Authorization': 'Bearer ', // Reemplaza con tu token de autenticación
