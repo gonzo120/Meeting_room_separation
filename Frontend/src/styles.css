@@ -1,0 +1,40 @@
+/* You can add global styles to this file, and also import other style files 
+body {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh; 
+    margin: 0;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }*/
+/* 
+  
+  .custom-dialog-container {
+    position: relative !important;
+    top: 0 !important;
+  } */
+
+  .mat-dialog-container {
+   
+}
+.cdk-overlay-container, .cdk-global-overlay-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Evita que el contenedor del diálogo bloquee la página */
+}
+
+.cdk-overlay-backdrop {
+    pointer-events: all; /* Permite que el fondo del diálogo sea interactivo */
+}
+
+.mat-dialog-container {
+    pointer-events: all; /* Permite que el contenido del diálogo sea interactivo */
+}
